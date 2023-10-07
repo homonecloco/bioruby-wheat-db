@@ -19,7 +19,11 @@ Rails.application.routes.draw do
   end
 
 #Lines to make sequenceserver run.
+  begin
+    SequenceServer.init
+   mount SequenceServer, :at => "sequenceserver"  
+  rescue => exception
+    Rails.logger.info "Unable to start sequence server: #{exception}"
+  end  
   
-  SequenceServer.init
-  mount SequenceServer, :at => "sequenceserver"
 end

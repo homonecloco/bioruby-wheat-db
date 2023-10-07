@@ -81,4 +81,8 @@ namespace :mutation do
 			LoadFunctions.load_primers_mutants(stream, args[:species])
 		end
 	end
+
+	task :export_mutations => :environment do |t, args|
+		puts "new task"
+	end
 end

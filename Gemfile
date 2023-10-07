@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.2.0'
+gem 'rails', '7'
 
 # Use passenger in production
 gem 'passenger'
@@ -13,16 +13,16 @@ gem 'passenger'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 5.0'
+gem 'sass-rails'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .coffee assets and views
-gem 'coffee-rails', '~> 4.1.0'
+#gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer', platforms: :ruby
 
 # Use jquery as the JavaScript library
-gem 'jquery-rails'
+# gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -41,15 +41,18 @@ gem 'bio-vcf'
 gem 'sinatra'
 gem 'sequenceserver'
 
-preferences = YAML.load_file('./config/database.yml')
-
+begin
+  preferences = YAML.load_file('./config/database.yml', aliases: true)
+rescue
+  preferences = YAML.load_file('./config/database.yml')
+end
 adapters = Set.new
 preferences.each_pair do |k, v| 
 	adapters << v["adapter"] 
 end
 
 
-gem 'mysql2', '~> 0.3.20', :require => false if adapters.include? "mysql2"
+gem 'mysql2', :require => false if adapters.include? "mysql2"
 gem 'pg', :require => false if adapters.include? "postgresql"
 
 
